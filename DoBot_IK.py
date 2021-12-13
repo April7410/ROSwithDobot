@@ -2,7 +2,7 @@ import numpy as np
 from numpy import transpose, cross, arctan2, arcsin
 from numpy.linalg import norm
 from subprobs import *
-
+###############dummy
 def DoBot_IK(p0T):
     l1 = 103; l2 = 135; l3 = 160; l4 = 50; l5 = 75;
     ex = transpose([1,0,0]); ey = transpose([0, 1,0]); ez = transpose([0,0,1]);
