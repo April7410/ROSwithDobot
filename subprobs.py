@@ -1,6 +1,6 @@
-from math import sqrt, sin, cos
+from math import sqrt, sin, cos, pi
 import numpy as np
-from numpy import transpose, cross, arctan2, arcsin
+from numpy import transpose, cross, arctan2, arcsin, arccos
 from numpy.linalg import norm
 
 # q=subprob0(k,p1,p2)
@@ -19,7 +19,7 @@ def subprob0(k,p1,p2):
 
     q=2*np.arctan2(norm(p1-p2),norm(p1+p2))
 
-    if transpose(k)*(cross(p1,p2))<0:
+    if transpose(k)@(cross(p1,p2))<0:
         q=-q
     return q
 
@@ -42,8 +42,8 @@ def subprob1(k, p1, p2):
     p2 = p2 / norm(p2) * norm(p1);
 
     k = k / norm(k);
-    pp1 = p1 - (transpose(p1)*k)*k;
-    pp2=p2-(transpose(p2)*k)*k;
+    pp1 = p1 - (transpose(p1)@k)*k;
+    pp2=p2-(transpose(p2)@k)*k;
 
     epp1=pp1 / norm(pp1);
     epp2 = pp2 / norm(pp2);
@@ -64,9 +64,9 @@ def subprob1(k, p1, p2):
 
 def subprob3(k,p1,p2,d):
 
-    pp1 = p1 - transpose(k) * p1 *k;
-    pp2 = p2 - transpose(k)* p2* k;
-    dpsq = d*d - (transpose(k)*(p1-p2))*(transpose(k)*(p1-p2));
+    pp1 = p1 - transpose(k) @ p1 * k;
+    pp2 = p2 - transpose(k)@ p2 * k;
+    dpsq = d * d - (transpose(k)@(p1-p2))*(transpose(k)@(p1-p2));
 
 
     if dpsq==0:
@@ -74,15 +74,15 @@ def subprob3(k,p1,p2,d):
         return q
 
 
-    bb=(norm(pp1)^2+norm(pp2)^2-dpsq)/(2*norm(pp1)*norm(pp2));
+    bb=(norm(pp1)**2+norm(pp2)**2-dpsq)/(2*norm(pp1)*norm(pp2));
     if abs(bb)>1:
         q = transpose(np.array([NaN,NaN]))
         return q
 
-    phi=acos(bb);
+    phi=arccos(bb);
 
     q0=subprob1(k,pp1/norm(pp1),pp2/norm(pp2));
-    q = np.zeros(2,1);
+    q = np.zeros((2,1));
 
     q[0] = q0+phi;
     q[1] = q0-phi;
@@ -100,23 +100,20 @@ def subprob3(k,p1,p2,d):
 #
 
 def subprob4(k,h,p,d):
-    print(k,"___", h, "___",  p, "___", d)
     d=d/norm(h);
     h=h/norm(h);
     ## Disclaimer: MAY CAUSE PROBLEMS IN MATLAB THIS WAS h.' NOT h'
-    c= d - (transpose(h)*p + transpose(h)*hat(k)*hat(k)*p);
-    a = transpose(h) * hat(k)*p;
-    b=-transpose(h) * hat(k)*hat(k)*p;
+    c= d - (transpose(h)@p + transpose(h)@hat(k)@hat(k)@p);
+    a = transpose(h) @ hat(k)@p;
+    b=-transpose(h) @ hat(k)@hat(k)@p;
 
     phi=arctan2(b,a);
 
     q = np.zeros((2,1));
-    print(a)
-    print(b)
-    psi=arcsin(c/norm(a,b));
+    psi=arcsin(c/norm((a,b)));
 
-    q[1]=-phi+psi;
-    q[2]=-phi-psi+pi;
+    q[0]=-phi+psi;
+    q[1]=-phi-psi+pi;
     return q
 
 
@@ -126,5 +123,6 @@ def hat(k):
 
 def rot(k,theta):
 
-  k = k / norm(k);
-  R=np.eye(3,3) + sin(theta) * hat(k)+(1-cos(theta))*hat(k)*hat(k);
+    k = k / norm(k);
+    R=np.eye(3,3) + sin(theta) * hat(k)+(1-cos(theta))*hat(k)@hat(k);
+    return R
