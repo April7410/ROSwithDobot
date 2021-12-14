@@ -66,15 +66,16 @@ def subprob3(k,p1,p2,d):
 
     pp1 = p1 - transpose(k) @ p1 * k;
     pp2 = p2 - transpose(k)@ p2 * k;
-    dpsq = d * d - (transpose(k)@(p1-p2))*(transpose(k)@(p1-p2));
-
+    dpsq = d * d - (transpose(k) @ (p1-p2))*(transpose(k)@(p1-p2));
 
     if dpsq==0:
         q = subprob1(k,pp1/norm(pp1),pp2/norm(pp2));
         return q
 
 
-    bb=(norm(pp1)**2+norm(pp2)**2-dpsq)/(2*norm(pp1)*norm(pp2));
+    bb=(norm(pp1)**2 + norm(pp2)**2 -dpsq)/(2 * norm(pp1) * norm(pp2))
+
+
     if abs(bb)>1:
         q = transpose(np.array([NaN,NaN]))
         return q
@@ -83,7 +84,6 @@ def subprob3(k,p1,p2,d):
 
     q0=subprob1(k,pp1/norm(pp1),pp2/norm(pp2));
     q = np.zeros((2,1));
-
     q[0] = q0+phi;
     q[1] = q0-phi;
     return q
