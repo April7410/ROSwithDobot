@@ -1,11 +1,11 @@
 # import the opencv library
 import cv2
-import cvzone
-from cvzone.HandTrackingModule import HandDetector
+#import cvzone
+#from cvzone.HandTrackingModule import HandDetector
   
 # define a video capture object
-vid = cv2.VideoCapture("/dev/video3")
-#vid = cv2.VideoCapture(0)
+#vid = cv2.VideoCapture("/dev/video3")
+vid = cv2.VideoCapture(0)
 while(True):
       
     # Capture the video frame

@@ -1,7 +1,6 @@
 import termios, fcntl, sys, os
 #TODO: import RR/ROS libraries and ROS message/service type 
 
-
 #keyboard reading settings
 fd = sys.stdin.fileno()
 oldterm = termios.tcgetattr(fd)

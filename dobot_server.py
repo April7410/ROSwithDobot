@@ -5,7 +5,7 @@ from DobotSerialInterface import DobotSerialInterface
 from dobot_driver.msg import joint_angles
 from dobot_driver.srv import setpose
 
-#sudo chmod 777 /dev/ttyACM0
+# sudo chmod 777 /dev/ttyACM0
 # run line above in terminal before running this code
 
 class CreateDobot:

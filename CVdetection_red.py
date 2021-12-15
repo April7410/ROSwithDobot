@@ -1,11 +1,13 @@
 import cv2
 import numpy as np
-#######3nothing
+#######nothing
 cap = cv2.VideoCapture("/dev/video2")
+cap = cv2.VideoCapture(0)
 
 while(True):
     success, image = cap.read()
     cv2.imshow('frame', image)
+
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
