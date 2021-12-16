@@ -2,14 +2,14 @@ from DoBot_IK import *
 import numpy as np
 
 def IK_Processing(qsol):
+
+    # *** Because of the way DoBot reads q3**
+    qsol[2, :] = qsol[2, :] + qsol[1, :]
+    # re-wrap to pi
+    qsol = np.arctan2(np.sin(qsol), np.cos(qsol))
     # DoBot reads angles in degrees
     qsol = np.rad2deg(qsol)
-    # *** Because of the way DoBot reads the angles**
-
-    qsol[2, :] = qsol[2,:] + qsol[1,:]
-    print("*******line 10*************")
-    print(qsol)
-
+    # print(qsol)
     # find the limits of the dobot
     for i in [0,1,2,3]:
         # ending loop as soon as it finds an acceptable solution, deleating all other solutions
@@ -18,7 +18,12 @@ def IK_Processing(qsol):
         q2 = qsol[1, 0]
         q3 = qsol[2, 0]
 
+
         q3_lim = q3lim(q2)
+        # print("***********")
+        # print(q3_lim[0])
+        # print(q3)
+        # print(q3_lim[1])
         if q3 > q3_lim[0] or q3 < q3_lim[1]:
            qsol = np.delete(qsol, 0, 1)
            continue
