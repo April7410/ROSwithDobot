@@ -17,8 +17,10 @@ import apriltag
 #         break
 
 # img=cv2.imwrite('to_detectApril.png', image)
+#image=cv2.imread("images/red.jpeg")        #read in image
 
-#img = cv2.imread(image.cv2.IMREAD_GRAYSCALE)
+image='to_detectApril.png'
+img = cv2.imread(image.cv2.IMREAD_GRAYSCALE)
 detector = apriltag.Detector()
 result = detector.detect(img)
 tf = result[0].tag_family
