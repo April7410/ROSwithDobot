@@ -1,27 +1,14 @@
 # import the opencv library
+# pip3 install opencv-python
 import cv2
-#import cvzone
-#from cvzone.HandTrackingModule import HandDetector
-  
-# define a video capture object
-#vid = cv2.VideoCapture("/dev/video3")
-vid = cv2.VideoCapture(0)
+
+# vid = cv2.VideoCapture(0)  # define a video capture object
+vid = cv2.VideoCapture("/dev/video2") # find the non-default external camera port
 while(True):
-      
-    # Capture the video frame
-    # by frame
-    ret, frame = vid.read()
-  
-    # Display the resulting frame
-    cv2.imshow('frame', frame)
-      
-    # the 'q' button is set as the
-    # quitting button you may use any
-    # desired button of your choice
+    ret, frame = vid.read()      # Capture the video frame
+    cv2.imshow('frame', frame)   # steams images into video
     if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-  
-# After the loop release the cap object
-vid.release()
-# Destroy all the windows
-cv2.destroyAllWindows()
+        break    # the 'q' button is set as the quitting button
+
+vid.release()    # After the loop release the cap object
+cv2.destroyAllWindows()          # Destroy all the windows

@@ -71,8 +71,8 @@ class DobotSerialInterface:
         # cmd_str_42 = ['\x00']*DobotStatusMessage.MESSAGE_LENGTH
         # cmd_str_42[0] = '\xA5'
         # cmd_str_42[-1] = '\x5A'
-        print("10string")
-        print(cmd_str_10)
+        # print("10string")
+        # print(cmd_str_10)
         cmd_str_42 = b'\xA5'
         for i in range(10):
             str4 = struct.pack('<f', float(cmd_str_10[i]))
@@ -85,7 +85,7 @@ class DobotSerialInterface:
         cmd_str_42 = cmd_str_42 + b'\x5A'
         #********************** made changes here ******************************
         # cmd_str = ''.join(str(cmd_str_42))
-        print(cmd_str_42)
+        # print(cmd_str_42)
         # self.serial_connection.write(cmd_str)
         self.serial_connection.write(cmd_str_42)
         # print "sending", binascii.b2a_hex(cmd_str)

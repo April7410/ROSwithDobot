@@ -29,7 +29,7 @@ def DoBot_IK(p0T):
                 q2sol[j,i] = subprob1(ey, p23+ rot(h3, q3sol[j,i]) @ p34, d_q2)
 
     qsol = np.array([[float(q1sol[0]),float(q1sol[0]), float(q1sol[1]), float(q1sol[1])],
-                     [q2sol[0,0], q2sol[1,0], q2sol[0,1], q2sol[1,1]],
+                     [-q2sol[0,0], -q2sol[1,0], -q2sol[0,1], -q2sol[1,1]],
                      [q3sol[0,0], q3sol[1,0], q3sol[0,1], q3sol[1,1]]])
 
     qsol = np.append(qsol, [-(qsol[2,:] + qsol[1,:])], 0)

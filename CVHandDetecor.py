@@ -1,8 +1,8 @@
 from cvzone.HandTrackingModule import HandDetector
 import cv2
 
-#cap = cv2.VideoCapture("/dev/video2")
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("/dev/video2")
+# cap = cv2.VideoCapture(0)
 
 detector = HandDetector(detectionCon=0.8, maxHands=2)
 while True:
@@ -40,7 +40,7 @@ while True:
     # cv2.waitKey(1)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-cv2.imwrite('/HandImage2.png', img)
+cv2.imwrite('HandImageNew.png', img)
 
 cap.release()
 

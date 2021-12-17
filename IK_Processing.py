@@ -24,7 +24,7 @@ def IK_Processing(qsol):
         # print(q3_lim[0])
         # print(q3)
         # print(q3_lim[1])
-        if q3 > q3_lim[0] or q3 < q3_lim[1]:
+        if q3 >= q3_lim[0] or q3 <= q3_lim[1]:
            qsol = np.delete(qsol, 0, 1)
            continue
         if q1 > 135 or q1 < -135:
@@ -52,7 +52,7 @@ def q3lim(q2):
     m_dn = ((l2_dn[1] - l1_dn[1])) / (l2_dn[0] - l1_dn[0])
     b_dn = (l2_dn[1] - (m_dn * l2_dn[0]))
     if q2 <= 30:
-        q3_lim_dn = 0
+        q3_lim_dn = -1
     else:
         q3_lim_dn = m_dn * q2 + b_dn
     return (q3_lim_up, q3_lim_dn)

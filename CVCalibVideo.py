@@ -18,13 +18,13 @@ objectp3d = np.zeros((1, CHECKERBOARD[0] * CHECKERBOARD[1], 3), np.float32)
 objectp3d[0, :, :2] = np.mgrid[0:CHECKERBOARD[0], 0:CHECKERBOARD[1]].T.reshape(-1, 2)
 prev_img_shape = None
 
-#vid = cv2.VideoCapture('/dev/video0')
-vid = cv2.VideoCapture(0)
+vid = cv2.VideoCapture('/dev/video2')
+# vid = cv2.VideoCapture(0)
 picTaken=3
 counter=0
 imagelist=[]
-while counter<=picTaken:  #takes 4 pics
-    ret, image = vid.read()
+while counter<picTaken:  #takes 3 pics
+    ret0, image = vid.read()
     cv2.imshow('VideoSteaming', image)
     
     #cv2.waitKey(0) #shoot photo
@@ -37,7 +37,7 @@ while counter<=picTaken:  #takes 4 pics
                     cv2.CALIB_CB_ADAPTIVE_THRESH
                     + cv2.CALIB_CB_FAST_CHECK +
                     cv2.CALIB_CB_NORMALIZE_IMAGE)
-    print(ret,corners)
+    #print(ret,corners)
     if ret==True: 	# return of cv2.findChessboardCorners==True
         objPoints.append(objectp3d)
         # Refining pixel coordinates for given 2d points.
@@ -46,21 +46,24 @@ while counter<=picTaken:  #takes 4 pics
         imgPoints.append(corners2)
 
         # Draw and display the corners
-        # image = cv2.drawChessboardCorners(image, CHECKERBOARD, corners2, ret)
-        imagelist.append(cv2.drawChessboardCorners(image, CHECKERBOARD, corners2, ret))
+        image = cv2.drawChessboardCorners(image, CHECKERBOARD, corners2, ret)
+        # imagelist.append(cv2.drawChessboardCorners(image, CHECKERBOARD, corners2, ret))
         counter += 1
         
-        # cv2.imshow('ChessFoundImage{}'.format(counter), image)
-        # #cv2.imwrite('Chess5x6Img{}'.format(counter), image)
-        # cv2.waitKey(1000)
+        cv2.imshow('ChessFoundImage{}'.format(counter), image)
+        cv2.waitKey(10)
+        chessimgname='Chess5x6Img{}.png'.format(counter)
+        cv2.imwrite(chessimgname, image)
+        cv2.waitKey(10)
 
     #cv2.imwrite('chess5x6.png', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-for i in range(len(imagelist)):
-    cv2.imshow('ChessFoundImage{}'.format(i), imagelist[i])
+
+# for i in range(len(imagelist)):
+#     cv2.imshow('ChessFoundImage{}'.format(i), imagelist[i])
     #cv2.imwrite('Chess5x6Img{}'.format(counter), image)
-    cv2.waitKey(1000)
+cv2.waitKey(1000)
 cv2.waitKey(0)
 #cv2.destroyAllWindows()
 vid.release()
@@ -76,6 +79,16 @@ print(" Camera matrix:\n", CamMatrix)
 
 print("\n Distortion coefficient:\n", distortion)
 
-print("\n Rotation Vectors:\n", r_vecs)
+rvec3x3 = np.reshape(r_vecs,(3,3))
+print("\n Rotation Vectors(r_vec):\n", rvec3x3)
 
-print("\n Translation Vectors:\n", t_vecs)
+kx = float(r_vecs[0][0])
+ky = float(r_vecs[0][1])
+kz = float(r_vecs[0][2])
+# print(kx,ky,kz)
+RotMatrix0 = np.matrix([[0,-kz,ky],[kz,0,-kx],[-ky,kx,0]])
+print('\n crossmat(k), k=r_vec[0]:\n', RotMatrix0)
+# a crossmat() could compute (rhat) or (khat) in class
+tvec3x3 = np. reshape(t_vecs, (3, 3))
+# print(tvec3x3)
+print("\n Translation Vectors:\n", tvec3x3)
